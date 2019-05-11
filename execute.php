@@ -29,18 +29,25 @@ else
 	if (strpos($string_exploded[0], "buy") == true) 
 	{
    		$direction = "BUY";
+		$pos_dir = strpos($string_exploded[0], "buy");
+		$asset = substr($string_exploded[0],$pos_dir+4,6);
+		$entry_level = filter_var(substr($string_exploded[0],$pos_dir+4,strlen($string_exploded[0])-$pos_dir), FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		
 	}
 	if (strpos($string_exploded[0], "sell") == true) 
 	{
-   		$direction = "SELL";
+   		$direction = "BUY";
+		$pos_dir = strpos($string_exploded[0], "sell");
+		$asset = substr($string_exploded[0],$pos_dir+5,6);
+		$entry_level = filter_var(substr($string_exploded[0],$pos_dir+5,strlen($string_exploded[0])-$pos_dir), FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		
 	}
 
-		$entry_level = filter_var($string_exploded[0], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 		$stoploss = filter_var($string_exploded[1], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 		$tp1 = filter_var($string_exploded[2], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 		$tp2 = filter_var($string_exploded[3], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 		
-		$response = "Segnale $direction\nEntry Level $entry_level\nStopLoss $stoploss\nTake 1 $tp1\nTake2 $tp2";
+		$response = "Segnale $direction\nAsset $asset\nEntry Level $entry_level\nStopLoss $stoploss\nTake 1 $tp1\nTake2 $tp2";
 }
 
 
