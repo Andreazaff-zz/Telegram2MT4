@@ -43,7 +43,7 @@ else
 
 	if ($index_entry == -1) 
 	{
-		$response = "Nessun Segnale Inserito";
+		$response = /*"Nessun Segnale Inserito";*/$text;
 	}
 	else
 	{
