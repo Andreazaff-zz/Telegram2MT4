@@ -1,33 +1,5 @@
 <?php
 
-function set_param ($id, $set)
-{
-	$url = "https://buddyzeus.com/zeusconfig_pageupdate_list01.php?id=".$id."&set=".$set;
-    $ch = curl_init();
-    $optArray = array(
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true
-    );
-    curl_setopt_array($ch, $optArray);
-	$result = curl_exec($ch);
-	//echo $result;
-    curl_close($ch);	
-}
-
-function all_param($set)
-{
-	$url = "https://buddyzeus.com/zeusconfig_pageupdate_list02.php?set=".$set;
-    $ch = curl_init();
-    $optArray = array(
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true
-    );
-    curl_setopt_array($ch, $optArray);
-	$result = curl_exec($ch);
-	//echo $result;
-    curl_close($ch);	
-}
-
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
@@ -45,44 +17,44 @@ $date = isset($message['date']) ? $message['date'] : "";
 $text = isset($message['text']) ? $message['text'] : "";
 $text = trim($text);
 $text = strtolower($text);
-$string_exploded = explode(":",$text);	//Delete_License:1
+$string_exploded = explode("\n",$text);	//Delete_License:1
 $response = '';
+$index_entry = -1;
 
-	if (strpos ($text, "/start") === 0 )
+if ($text == "ciao")
+{	
+	$response = "Ciao!!";
+}
+else
+{
+	for($c=0; $c<count($string_exploded);$c++)
 	{
-		if ($chatId == -1001296319190)
+		if (strpos($string_exploded[$c], "BUY") !== false) 
 		{
-			$response = "Ciao $firstname, Benvenuto nel Pannello di Controllo Licenze di Zeus © v3.2\n\nIn questo gruppo saranno inviate tutte le licenze che verranno generate ed attivate nei vari client MT4.\n Utilizzando il comando \"Delete:(ID)\" dove il parametro (ID) costituisce il progressivo della licenza sarai in grado di modificare da remoto la licenza per la copia di Zeus © rispettivamente a quel Client.\nUtilizzando il comando \"Activate:(ID)\" sarai invece in grado di riattivarla.\nCon i Comandi \"Close_All\" e \"Run_All\" sarai in grado rispettivamente di disattivare o attivare tutte le Licenze Registrate sul DataBase.\n\nTutti i diritti sono riservati. ©\n";
+    		$direction = "BUY";
+			$index_entry = $c;
 		}
-			else
-			{
-				$response = "Ciao $firstname, con questo Bot sarai in grado di ricevere le notifiche della MetaTrader 4 direttamente sul tuo account Telegram.\n\nIl codice di questa Chat è: $chatId\nInserisci questo codice nei parametri del tuo Expert Advisor e riceverai tutte le notifiche in questa chat.\n\nQuesto Bot è di proprietà di Andrea Zaffignani ed è compatibile solo con i suoi Expert Advisor.\nTutti i diritti sono riservati. ©\n";
-			}
+		if (strpos($string_exploded[$c], "SELL") !== false) 
+		{
+    		$direction = "SELL";
+			$index_entry = $c;
+		}
 	}
-		else if ($string_exploded[0] == "delete" && $chatId == -1001296319190)
-		{	
-			set_param($string_exploded[1],0);
-			$response = "La Licenza Associata all'Account ID ".$string_exploded[1]." è stata Correttamente Disabilitata";
-		}
-			else if ($string_exploded[0] == "activate" && $chatId == -1001296319190)
-			{	
-				set_param($string_exploded[1],1);
-				$response = "La Licenza Associata all'Account ID ".$string_exploded[1]." è stata Correttamente Abilitata";
-			}
-			else if ($string_exploded[0] == "close_all" && $chatId == -1001296319190)
-				{	
-					all_param(0);
-					$response = "Tutte le Licenze sono state Correttamente Disabilitate";
-				}
-					else if ($string_exploded[0] == "run_all" && $chatId == -1001296319190)
-					{	
-						all_param(1);
-						$response = "Tutte le Licenze sono state Correttamente Abilitate";
-					}
-						else
-						{
-							$response = "Comando Non Abilitato!\r\nContattare il Gestore del Servizio @andreazaff";
-						}
+
+	if ($index_entry == -1) 
+	{
+		$response = "Nessun Segnale Inserito";
+	}
+	else
+	{
+		$entry_level = filter_var($string_exploded[$index_entry], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		$stoploss = filter_var($string_exploded[$index_entry+1], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		$tp1 = filter_var($string_exploded[$index_entry+2], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		$tp2 = filter_var($string_exploded[$index_entry+3], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		
+		$response = "Segnale $direction\nEntry Level $entry_level\nStopLoss $stoploss\nTake 1 $tp1\nTake2 $tp2";
+	}
+}
 
 
 header("Content-Type: application/json");
