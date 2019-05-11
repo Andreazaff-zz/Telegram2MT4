@@ -17,7 +17,7 @@ $date = isset($message['date']) ? $message['date'] : "";
 $text = isset($message['text']) ? $message['text'] : "";
 $text = trim($text);
 $text = strtolower($text);
-$string_exploded = explode("\n",$text);	//Delete_License:1
+$string_exploded = explode("-",$text);	//Delete_License:1
 $response = '';
 $index_entry = -1;
 
@@ -43,7 +43,7 @@ else
 
 	if ($index_entry == -1) 
 	{
-		$response = /*"Nessun Segnale Inserito";*/$text;
+		$response = /*"Nessun Segnale Inserito";*/$string_exploded[0];
 	}
 	else
 	{
