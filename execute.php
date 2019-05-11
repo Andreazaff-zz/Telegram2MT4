@@ -19,7 +19,6 @@ $text = trim($text);
 $text = strtolower($text);
 $string_exploded = explode("-",$text);	//Delete_License:1
 $response = '';
-$index_entry = -1;
 
 if ($text == "ciao")
 {	
@@ -27,33 +26,21 @@ if ($text == "ciao")
 }
 else
 {
-	for($c=0; $c<count($string_exploded);$c++)
+	if (strpos($string_exploded[0], "buy") == true) 
 	{
-		if (strpos($string_exploded[$c], "BUY") !== false) 
-		{
-    		$direction = "BUY";
-			$index_entry = $c;
-		}
-		if (strpos($string_exploded[$c], "SELL") !== false) 
-		{
-    		$direction = "SELL";
-			$index_entry = $c;
-		}
+   		$direction = "BUY";
+	}
+	if (strpos($string_exploded[0], "sell") == true) 
+	{
+   		$direction = "SELL";
 	}
 
-	if ($index_entry == -1) 
-	{
-		$response = /*"Nessun Segnale Inserito";*/$string_exploded[0];
-	}
-	else
-	{
-		$entry_level = filter_var($string_exploded[$index_entry], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
-		$stoploss = filter_var($string_exploded[$index_entry+1], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
-		$tp1 = filter_var($string_exploded[$index_entry+2], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
-		$tp2 = filter_var($string_exploded[$index_entry+3], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		$entry_level = filter_var($string_exploded[0], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		$stoploss = filter_var($string_exploded[1], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		$tp1 = filter_var($string_exploded[2], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		$tp2 = filter_var($string_exploded[3], FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 		
 		$response = "Segnale $direction\nEntry Level $entry_level\nStopLoss $stoploss\nTake 1 $tp1\nTake2 $tp2";
-	}
 }
 
 
