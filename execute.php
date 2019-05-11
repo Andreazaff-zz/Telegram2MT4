@@ -43,9 +43,9 @@ else
 		
 	}
 
-		$stoploss = filter_var(substr($string_exploded[1],0,6), FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
-		$tp1 = filter_var(substr($string_exploded[2],0,6), FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
-		$tp2 = filter_var(substr($string_exploded[1],0,6), FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		$stoploss = filter_var(substr($string_exploded[1],0,10), FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		$tp1 = filter_var(substr($string_exploded[2],0,10), FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		$tp2 = filter_var(substr($string_exploded[1],0,10), FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 		
 		$response = "Segnale $direction\nAsset $asset\nEntry Level $entry_level\nStopLoss $stoploss\nTake 1 $tp1\nTake2 $tp2";
 }
