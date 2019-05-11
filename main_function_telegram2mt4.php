@@ -21,6 +21,12 @@ $string_exploded = explode("\n",$text);	//Delete_License:1
 $response = '';
 $index_entry = -1;
 
+if ($text == "ciao")
+{	
+	$response = "Ciao!!";
+}
+else
+{
 	for($c=0; $c<count($string_exploded);$c++)
 	{
 		if (strpos($string_exploded[$c], "BUY") !== false) 
@@ -48,6 +54,7 @@ $index_entry = -1;
 		
 		$response = "Segnale $direction\nEntry Level $entry_level\nStopLoss $stoploss\nTake 1 $tp1\nTake2 $tp2";
 	}
+}
 
 
 header("Content-Type: application/json");
