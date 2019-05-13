@@ -51,12 +51,6 @@ function exclusion ($message_update, &$asset, &$direction, &$stoploss)
 	else return(-1);
 }
 
-
-$prova_asset = "AUDUSD";
-$prova_dir = "OP_SELL";
-$prova_prezzo = 1.1010;
-
-
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
@@ -97,18 +91,17 @@ if ($result == 1)
 	// Check connection
 	if ($conn->connect_error) 
 	{
-		//die("Connection failed: " . $conn->connect_error);
+		//$response = "Connection failed: " . $conn->connect_error);
 		$response = "Errore di Connessione al DB";
 	} 
 	
 	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
 	VALUES (NULL,'$asset','$direction',$stoploss,1)";
 
-
 	if ($conn->query($sql) === false) 
 	{
-		//$response = "Errore Query di Immissione Segnale nel DB";
-		$response = "Error: " . $sql . "<br>" . $conn->error;
+		$response = "Errore Query di Immissione Segnale nel DB";
+		//$response = "Error: " . $sql . " " . $conn->error;
 	} 
 
 	$conn->close();
