@@ -55,6 +55,9 @@ $username = "buddyzeu_andreaz";
 $password = "DGv-FeU-eEP-W7u";
 $dbname = "buddyzeu_licenze";
 $tablename = "FxMind_Builders_Signals";
+$prova_asset = "AUDUSD";
+$prova_dir = "OP_SELL";
+$prova_prezzo = 1.1010;
 
 	// Create connection
 	$conn = new mysqli($servername, $username, $password, $dbname);
@@ -69,7 +72,7 @@ $tablename = "FxMind_Builders_Signals";
 	VALUES (NULL,`".$asset."`,`".$direction."`,".$stoploss.",1)";
 */
 	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
-	VALUES (NULL,AUDUSD,OP_SELL,1.1010,1)";
+	VALUES (NULL,'$prova_asset','$prova_dir',$prova_prezzo,1)";
 
 	if ($conn->query($sql) === false) 
 	{
