@@ -90,7 +90,7 @@ if ($result == 1)
 	// Check connection
 	if ($conn->connect_error) 
 	{
-		//die("Connection failed: " . $conn->connect_error);
+		die("Connection failed: " . $conn->connect_error);
 		$response = "Errore di Connessione al DB";
 	} 
 /*
@@ -103,6 +103,7 @@ if ($result == 1)
 	if ($conn->query($sql) === false) 
 	{
 		$response = "Errore Query di Immissione Segnale nel DB";
+		echo "Error: " . $sql . "<br>" . $conn->error;
 	} 
 
 	$conn->close();
