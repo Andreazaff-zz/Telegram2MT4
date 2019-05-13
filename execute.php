@@ -94,7 +94,7 @@ if ($result == 1)
 		$response = "Errore di Connessione al DB";
 	} 
 	
-	$sql = "INSERT INTO $tablename (`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
+	$sql = "INSERT INTO '$tablename' (`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
 	VALUES (NULL,'$asset','$direction',$stoploss,1)";
 
 
