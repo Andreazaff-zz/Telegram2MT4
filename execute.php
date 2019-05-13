@@ -121,7 +121,7 @@ if ($result == 1)
 	} 
 	
 	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
-	VALUES (NULL,\'".$asset."\',\'".$direction."\',$stoploss,1)";
+	VALUES (NULL,'$asset','$direction',$stoploss,1)";
 
 
 	if ($conn->query($sql) === false) 
