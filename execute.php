@@ -56,6 +56,29 @@ $password = "DGv-FeU-eEP-W7u";
 $dbname = "buddyzeu_licenze";
 $tablename = "FxMind_Builders_Signals";
 
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) 
+	{
+		//die("Connection failed: " . $conn->connect_error);
+		$response = "Errore di Connessione al DB";
+	} 
+/*
+	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
+	VALUES (NULL,`".$asset."`,`".$direction."`,".$stoploss.",1)";
+*/
+	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
+	VALUES (NULL,AUDUSD,OP_SELL,1.1010,1)";
+
+	if ($conn->query($sql) === false) 
+	{
+		$response = "Errore Query di Immissione Segnale nel DB";
+		echo "Error: " . $sql . "<br>" . $conn->error;
+	} 
+
+	$conn->close();
+
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
@@ -90,7 +113,7 @@ if ($result == 1)
 	// Check connection
 	if ($conn->connect_error) 
 	{
-		die("Connection failed: " . $conn->connect_error);
+		//die("Connection failed: " . $conn->connect_error);
 		$response = "Errore di Connessione al DB";
 	} 
 /*
@@ -103,7 +126,6 @@ if ($result == 1)
 	if ($conn->query($sql) === false) 
 	{
 		$response = "Errore Query di Immissione Segnale nel DB";
-		echo "Error: " . $sql . "<br>" . $conn->error;
 	} 
 
 	$conn->close();
