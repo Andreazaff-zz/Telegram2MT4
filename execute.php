@@ -123,7 +123,7 @@ if ($result == 1)
 	} 
 	
 	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
-	VALUES (NULL,'$asset','$direction',0,1)";
+	VALUES (NULL,'AUDUSD,'OP_BUY,0,1)";
 
 
 	if ($conn->query($sql) === false) 
