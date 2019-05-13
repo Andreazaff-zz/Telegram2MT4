@@ -50,6 +50,12 @@ function exclusion ($message_update, &$asset, &$direction, &$stoploss)
 	else return(-1);
 }
 
+$servername = "37.60.237.198";
+$username = "buddyzeu_andreaz";
+$password = "DGv-FeU-eEP-W7u";
+$dbname = "buddyzeu_licenze";
+$tablename = "FxMind_Builders_Signals";
+
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
@@ -78,6 +84,23 @@ $result = exclusion($text,$asset,$direction,$stoploss);
 if ($result == 1)
 {
 	$response = "Segnale $direction\nAsset $asset\nStopLoss $stoploss";
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	} 
+
+	$sql = "INSERT INTO $tablename (id_signal, asset, direction, stoploss, traded_flag)
+	VALUES (NULL, $asset, $direction, $stoploss,1)";
+
+	if ($conn->query($sql) === false) 
+	{
+		$response = "Errore Query di Immissione Segnale nel DB";
+	} 
+
+	$conn->close();
 }
 else $response = "Il segnale immesso non è valido.";
 
