@@ -41,7 +41,7 @@ function exclusion ($message_update, &$asset, &$direction, &$stoploss)
 		{
 			if (strpos($message_update, $master_asset[$c]) == true)
 			{
-				$asset = $master_asset[$c];
+				$asset = $master_asset[$c];													
 				return(1);
 			}
 		}
@@ -55,6 +55,7 @@ $username = "buddyzeu_andreaz";
 $password = "DGv-FeU-eEP-W7u";
 $dbname = "buddyzeu_licenze";
 $tablename = "FxMind_Builders_Signals";
+/*
 $prova_asset = "AUDUSD";
 $prova_dir = "OP_SELL";
 $prova_prezzo = 1.1010;
@@ -70,7 +71,7 @@ $prova_prezzo = 1.1010;
 /*
 	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
 	VALUES (NULL,`".$asset."`,`".$direction."`,".$stoploss.",1)";
-*/
+
 	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
 	VALUES (NULL,'$prova_asset','$prova_dir',$prova_prezzo,1)";
 
@@ -81,7 +82,7 @@ $prova_prezzo = 1.1010;
 	} 
 
 	$conn->close();
-
+*/
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
@@ -103,7 +104,7 @@ $text = strtoupper($text);
 $response = '';
 $asset = NULL;
 $direction = NULL;
-$stoploss = NULL;
+$stoploss = 0;
 
 $result = exclusion($text,$asset,$direction,$stoploss);
 
