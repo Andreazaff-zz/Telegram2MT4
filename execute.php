@@ -93,9 +93,12 @@ if ($result == 1)
 		//die("Connection failed: " . $conn->connect_error);
 		$response = "Errore di Connessione al DB";
 	} 
-
+/*
 	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
 	VALUES (NULL,`".$asset."`,`".$direction."`,".$stoploss.",1)";
+*/
+	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
+	VALUES (NULL,AUDUSD,OP_SELL,1.1010,1)";
 
 	if ($conn->query($sql) === false) 
 	{
