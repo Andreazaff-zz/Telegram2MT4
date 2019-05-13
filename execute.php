@@ -1,5 +1,54 @@
 <?php
 
+function exclusion ($message_update, &$asset, &$direction, &$stoploss)
+{
+	$master_asset[0] = "EURUSD";
+	$master_asset[1] = "EURGBP";
+	$master_asset[2] = "GBPUSD";
+	$master_asset[3] = "GBPCAD";
+	$master_asset[4] = "GBPCHF";
+	$master_asset[5] = "GBPAUD";
+	$master_asset[6] = "GBPNZD";
+	$master_asset[7] = "GBPJPY";
+	$master_asset[8] = "EURCAD";
+	$master_asset[9] = "EURAUD";
+	$master_asset[10] = "EURNZD";
+	$master_asset[11] = "EURJPY";
+	$master_asset[12] = "USDCAD";
+	$master_asset[13] = "USDCHF";
+	$master_asset[14] = "AUDUSD";
+	$master_asset[15] = "NZDUSD";
+	$master_asset[16] = "USDJPY";
+	$master_asset[17] = "CADCHF";
+	$master_asset[18] = "AUDCAD";
+	$master_asset[19] = "NZDCAD";
+	$master_asset[20] = "CADJPY";
+	$master_asset[21] = "AUDCHF";
+	$master_asset[22] = "NZDCHF";
+	$master_asset[23] = "CHFJPY";
+	$master_asset[24] = "AUDNZD";
+	$master_asset[25] = "AUDJPY";
+	$master_asset[26] = "NZDJPY";
+	
+	if (strpos($message_update, "#") == true && strpos($message_update, "PENDING ORDER") == false && (strpos($message_update, "BUY") == true || strpos($message_update, "SELL") == true)) 
+	{
+		if (strpos($message_update, "BUY") == true) $direction = "OP_BUY";
+		else $direction = "OP_SELL";
+		
+		for($c=0; $c<count($master_asset); $c++)
+		{
+			if (strpos($message_update, $master_asset[$c]) == true)
+			{
+				$asset = $master_asset[$c];
+			}
+		}
+		
+		$stoploss = filter_var(substr($message_update,strpos($message_update, "SL - ")+5,6), FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		return(1);
+	}
+	else return(-1);
+}
+
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
@@ -16,10 +65,22 @@ $username = isset($message['chat']['username']) ? $message['chat']['username'] :
 $date = isset($message['date']) ? $message['date'] : "";
 $text = isset($message['text']) ? $message['text'] : "";
 $text = trim($text);
-$text = strtolower($text);
-$string_exploded = explode("-",$text);	//Delete_License:1
+$text = strtoupper($text);
+//$string_exploded = explode("-",$text);
 $response = '';
+$asset = NULL;
+$direction = NULL;
+$stoploss = NULL;
 
+$result = exclusion($text,$asset,$direction,$stoploss);
+
+if ($result == 1)
+{
+	$response = "Segnale $direction\nAsset $asset\nStopLoss $stoploss";
+}
+else $response = "Il segnale immesso non è valido.";
+
+/*
 if ($text == "ciao")
 {	
 	$response = "Ciao!!";
@@ -49,7 +110,7 @@ else
 		
 		$response = "Segnale $direction\nAsset $asset\nEntry Level $entry_level\nStopLoss $stoploss\nTake 1 $tp1\nTake2 $tp2";
 }
-
+*/
 
 header("Content-Type: application/json");
 $parameters = array('chat_id' => $chatId, "text" => $response);
