@@ -60,8 +60,8 @@ $tablename = "FxMind_Builders_Signals";
 $prova_asset = "AUDUSD";
 $prova_dir = "OP_SELL";
 $prova_prezzo = 1.1010;
-/*
-	// Create connection
+
+// Create connection
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	// Check connection
 	if ($conn->connect_error) 
@@ -69,21 +69,19 @@ $prova_prezzo = 1.1010;
 		//die("Connection failed: " . $conn->connect_error);
 		$response = "Errore di Connessione al DB";
 	} 
-/*
-	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
-	VALUES (NULL,`".$asset."`,`".$direction."`,".$stoploss.",1)";
-
+	
 	$sql = "INSERT INTO `".$tablename."`(`id_signal`, `asset`, `direction`, `stoploss`, `traded_flag`) 
 	VALUES (NULL,'$prova_asset','$prova_dir',$prova_prezzo,1)";
 
+
 	if ($conn->query($sql) === false) 
 	{
-		$response = "Errore Query di Immissione Segnale nel DB";
-		echo "Error: " . $sql . "<br>" . $conn->error;
+		//$response = "Errore Query di Immissione Segnale nel DB";
+		$response = "Error: " . $sql . "<br>" . $conn->error;
 	} 
 
 	$conn->close();
-*/
+
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
