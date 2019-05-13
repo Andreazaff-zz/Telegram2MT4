@@ -35,16 +35,17 @@ function exclusion ($message_update, &$asset, &$direction, &$stoploss)
 		if (strpos($message_update, "BUY") == true) $direction = "OP_BUY";
 		else $direction = "OP_SELL";
 		
+		$stoploss = filter_var(substr($message_update,strpos($message_update, "SL - ")+5,6), FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+		
 		for($c=0; $c<count($master_asset); $c++)
 		{
 			if (strpos($message_update, $master_asset[$c]) == true)
 			{
 				$asset = $master_asset[$c];
+				return(1);
 			}
 		}
-		
-		$stoploss = filter_var(substr($message_update,strpos($message_update, "SL - ")+5,6), FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
-		return(1);
+		return(-1);
 	}
 	else return(-1);
 }
