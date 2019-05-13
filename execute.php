@@ -128,7 +128,8 @@ if ($result == 1)
 
 	if ($conn->query($sql) === false) 
 	{
-		$response = "Errore Query di Immissione Segnale nel DB";
+		//$response = "Errore Query di Immissione Segnale nel DB";
+		$response = "Error: " . $sql . "<br>" . $conn->error;
 	} 
 
 	$conn->close();
